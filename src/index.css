@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-cinzel {
+    font-family: 'Cinzel', serif, ui-serif;
+  }
+  .font-montserrat {
+    font-family: 'Montserrat', sans-serif, ui-sans-serif, system-ui;
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif, ui-sans-serif, system-ui;
+  background-color: #08080a;
+  color: #f4f4f5;
+  overflow-x: hidden;
+}
+
+/* Metallic Gold Gradient Utilities */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #FFF4B8 0%, #ECC86A 25%, #D4AF37 55%, #9E7D16 80%, #F5D061 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-btn {
+  background: linear-gradient(135deg, #ECC86A 0%, #D4AF37 50%, #B89218 100%);
+  color: #08080a;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.28);
+}
+
+.gold-gradient-btn:hover {
+  background: linear-gradient(135deg, #FFF2A1 0%, #ECC86A 45%, #C99E1D 100%);
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.45);
+  transform: translateY(-1px);
+}
+
+.gold-outline-btn {
+  border: 1.5px solid #D4AF37;
+  color: #ECC86A;
+  background: rgba(212, 175, 55, 0.05);
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.gold-outline-btn:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: #FFF2A1;
+  color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);
+}
+
+.gold-card-border {
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  transition: all 0.3s ease;
+}
+
+.gold-card-border:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 10px 30px -10px rgba(212, 175, 55, 0.2);
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0d12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #272733;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+

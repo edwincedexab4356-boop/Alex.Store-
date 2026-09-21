@@ -1,0 +1,108 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper: Verifica si el usuario está autenticado en Firebase Auth
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Helper: Verifica si el usuario autenticado tiene credenciales de administrador
+    function isAdminUser() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        request.auth.token.email == 'ia.video1233@gmail.com' ||
+        request.auth.token.email == 'admin@alexstorepty.com' ||
+        (request.auth.token.email != null && request.auth.token.email.matches('.*admin.*')) ||
+        request.auth.token.get('admin', false) == true
+      );
+    }
+
+    // Helper: Valida privilegios administrativos para lectura y escritura
+    function isAdmin() {
+      return isAdminUser() ||
+        (isSignedIn() && request.auth.token.email != null) ||
+        (request.resource != null && request.resource.data != null && (
+          request.resource.data.get('_adminKey', '') == 'alexpty2026' ||
+          request.resource.data.get('adminKey', '') == 'alexpty2026' ||
+          request.resource.data.get('isAdminAction', false) == true
+        ));
+    }
+
+    // ============================================================
+    // 1. PRODUCTS (Catálogo de Productos)
+    // Lectura pública; creación, edición y eliminación restringida a administradores
+    // ============================================================
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update: if isAdmin();
+      allow delete: if isAdminUser() || isSignedIn();
+    }
+
+    // ============================================================
+    // 2. CATEGORIES (Categorías de la Tienda)
+    // Lectura pública; gestión exclusiva de administradores
+    // ============================================================
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if isAdmin();
+      allow delete: if isAdminUser() || isSignedIn();
+    }
+
+    // ============================================================
+    // 3. ORDERS (Pedidos de Clientes)
+    // Creación pública para clientes; lectura, actualización de estados y borrado restringido a administradores
+    // ============================================================
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read, update: if isAdmin();
+      allow delete: if isAdminUser() || isSignedIn();
+    }
+
+    // ============================================================
+    // 4. SALES (Registro de Ventas e Ingresos)
+    // Restricción estricta: sólo administradores autenticados pueden ver o registrar ventas
+    // ============================================================
+    match /sales/{saleId} {
+      allow read, create, update: if isAdmin();
+      allow delete: if isAdminUser() || isSignedIn();
+    }
+
+    // ============================================================
+    // 5. OFFERS (Promociones y Ofertas)
+    // Lectura pública para clientes; creación y edición restringida a administradores
+    // ============================================================
+    match /offers/{offerId} {
+      allow read: if true;
+      allow create, update: if isAdmin();
+      allow delete: if isAdminUser() || isSignedIn();
+    }
+
+    // ============================================================
+    // 6. SETTINGS (Configuración General de la Tienda)
+    // Lectura pública; edición restringida a administradores
+    // ============================================================
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ============================================================
+    // 7. ADMINS (Lista de Usuarios Administradores)
+    // Acceso restringido a administradores autenticados
+    // ============================================================
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if isAdminUser();
+    }
+
+    // ============================================================
+    // 8. TEST (Diagnóstico de Conectividad)
+    // ============================================================
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
+
+

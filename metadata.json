@@ -1,0 +1,6 @@
+{
+  "name": "ALEX.STOREPTY - Jerseys y más",
+  "description": "Tienda deportiva online oficial de ALEX.STOREPTY. Jerseys de fútbol, clubes, selecciones, retro, ropa deportiva y accesorios exclusivos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

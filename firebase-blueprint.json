@@ -1,0 +1,139 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Football jersey or sports merchandise item",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "discount": { "type": "number" },
+        "isOffer": { "type": "boolean" },
+        "isFeatured": { "type": "boolean" },
+        "isActive": { "type": "boolean" },
+        "images": { "type": "array" },
+        "description": { "type": "string" },
+        "sku": { "type": "string" },
+        "details": { "type": "object" },
+        "sizes": { "type": "array" },
+        "stockPerSize": { "type": "object" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "category", "price", "images", "sizes", "stockPerSize", "isActive"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Product category grouping",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "icon": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["name", "slug"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase order",
+      "type": "object",
+      "properties": {
+        "orderNumber": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "createdAt": { "type": "number" },
+        "customer": { "type": "object" },
+        "deliveryMethod": { "type": "string" },
+        "deliveryAddress": { "type": "string" },
+        "notes": { "type": "string" },
+        "items": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "shippingCost": { "type": "number" },
+        "total": { "type": "number" },
+        "status": { "type": "string" }
+      },
+      "required": ["orderNumber", "createdAt", "customer", "deliveryMethod", "deliveryAddress", "items", "total", "status"]
+    },
+    "StoreSettings": {
+      "title": "StoreSettings",
+      "description": "Global store configuration and contact settings",
+      "type": "object",
+      "properties": {
+        "storeName": { "type": "string" },
+        "slogan": { "type": "string" },
+        "secondarySlogan": { "type": "string" },
+        "phone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "instagram": { "type": "string" },
+        "facebook": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "hours": { "type": "string" },
+        "deliveryMethods": { "type": "array" },
+        "currencySymbol": { "type": "string" },
+        "bannerNotice": { "type": "string" }
+      },
+      "required": ["storeName", "slogan", "whatsapp", "deliveryMethods"]
+    },
+    "Sale": {
+      "title": "Sale",
+      "description": "Completed store sales record",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "products": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "total": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "customerName": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["products", "subtotal", "total", "paymentMethod", "customerName", "createdAt"]
+    },
+    "Offer": {
+      "title": "Offer",
+      "description": "Promotional discount campaigns",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "discount": { "type": "number" },
+        "productIds": { "type": "array" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "discount", "productIds", "active"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Public catalog of jerseys and merchandise. Admin manages all records."
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Store categories used for navigation and filters."
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer orders submitted from checkout or created by admin."
+    },
+    "/sales/{saleId}": {
+      "schema": "Sale",
+      "description": "Sales ledger tracking completed transactions and metrics."
+    },
+    "/offers/{offerId}": {
+      "schema": "Offer",
+      "description": "Active and scheduled discount promotions linked to products."
+    },
+    "/settings/{docId}": {
+      "schema": "StoreSettings",
+      "description": "Store contact details, banner announcement and delivery methods."
+    }
+  }
+}
